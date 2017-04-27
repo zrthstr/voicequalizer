@@ -47,6 +47,8 @@ IN THE SOFTWARE.
 
 -->
 
+
+
 <head>
   <title>Pink Trombone</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -54,6 +56,28 @@ IN THE SOFTWARE.
 </head>
 
 <body style="margin: 0; padding: 0; background-color:white">
+
+    <div id="output"></div>
+
+<form name="myform">
+<p>
+<textarea name="outputtext" rows="20" cols="50"></textarea>
+</p>
+<p>
+<textarea name="inputtext" cols="50"></textarea>
+</p>
+<p>
+<textarea name="url" cols="50"></textarea>
+</p>
+<p>
+<input type="button" name=sendButton value="Send" onClick="sendText();">
+<input type="button" name=clearButton value="Clear" onClick="clearText();">
+<input type="button" name=disconnectButton value="Disconnect" onClick="doDisconnect();">
+<input type="button" name=connectButton value="Connect" onClick="doConnect();">
+</p>
+
+
+</form>
 
   <canvas id="tractCanvas" width="600" height="600"
   style = "position: absolute; z-index: 1;  background-color:transparent; margin: 0; padding: 0;">
