@@ -57,37 +57,36 @@ IN THE SOFTWARE.
 
 <body style="margin: 0; padding: 0; background-color:white">
 
-    <div id="output"></div>
+  <div id="output"></div>
 
-<form name="myform">
-<p>
-<textarea name="outputtext" rows="20" cols="50"></textarea>
-</p>
-<p>
-<textarea name="inputtext" cols="50"></textarea>
-</p>
-<p>
-<textarea name="url" cols="50"></textarea>
-</p>
-<p>
-<input type="button" name=sendButton value="Send" onClick="sendText();">
-<input type="button" name=clearButton value="Clear" onClick="clearText();">
-<input type="button" name=disconnectButton value="Disconnect" onClick="doDisconnect();">
-<input type="button" name=connectButton value="Connect" onClick="doConnect();">
-</p>
+  <form name="myform">
+    <p>
+      <textarea name="outputtext" rows="20" cols="50"></textarea>
+    </p>
+    <p>
+      <textarea name="inputtext" cols="50"></textarea>
+    </p>
+    <p>
+      <textarea name="url" cols="50"></textarea>
+    </p>
+    <p>
+      <input type="button" name=sendButton value="Send" onClick="sendText();">
+      <input type="button" name=clearButton value="Clear" onClick="clearText();">
+      <input type="button" name=disconnectButton value="Disconnect" onClick="doDisconnect();">
+      <input type="button" name=connectButton value="Connect" onClick="doConnect();">
+    </p>
 
 
-</form>
+  </form>
 
-  <canvas id="tractCanvas" width="600" height="600"
-  style = "position: absolute; z-index: 1;  background-color:transparent; margin: 0; padding: 0;">
+  <canvas id="tractCanvas" width="600" height="600" style="position: absolute; z-index: 1;  background-color:transparent; margin: 0; padding: 0;">
   </canvas>
-  <canvas id="backCanvas" width="600" height="600"
-  style = "position: absolute; z-index: 0; background-color:transparent; margin: 0; padding: 0;">
+  <canvas id="backCanvas" width="600" height="600" style="position: absolute; z-index: 0; background-color:transparent; margin: 0; padding: 0;">
   </canvas>
 
   <script src="./pink_trombone.js"></script>
   <script src="./expose_pt_api_ws.js"></script>
 
 </body>
+
 </html>
