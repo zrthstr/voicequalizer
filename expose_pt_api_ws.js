@@ -1,3 +1,5 @@
+const w = document.getElementById('pt').contentWindow
+
 function init() {
   document.myform.url.value = "ws://localhost:8080/"
   document.myform.inputtext.value = "Hello World!"
@@ -30,9 +32,6 @@ function onClose(evt) {
   document.myform.disconnectButton.disabled = true
 }
 function onMessage(evt) {
-  const w = document.getElementById('pt').contentWindow
-  w.alwaysVoice = false
-
   writeToScreen(w.alwaysVoice)
   writeToScreen('\n')
   writeToScreen("response: " + evt.data + '\n')
@@ -60,4 +59,9 @@ function clearText() {
 }
 function doDisconnect() {
   websocket.close()
+}
+
+function doMouse(pageX, pageY, t) {
+  w.UI.startMouse({pageX, pageY})
+  window.setTimeout(w.UI.endMouse, t)
 }
