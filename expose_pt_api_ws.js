@@ -1,5 +1,5 @@
 function init() {
-  document.myform.url.value = "ws://localhost:8000/"
+  document.myform.url.value = "ws://localhost:8080/"
   document.myform.inputtext.value = "Hello World!"
   document.myform.disconnectButton.disabled = true;
 }
