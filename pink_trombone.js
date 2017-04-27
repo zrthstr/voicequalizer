@@ -4,20 +4,17 @@ Math.clamp = function(number, min, max) {
     else return number;
 }
 
-Math.moveTowards = function(current, target, amount)
-{
+Math.moveTowards = function(current, target, amount) {
     if (current<target) return Math.min(current+amount, target);
     else return Math.max(current-amount, target);
 }
 
-Math.moveTowards = function(current, target, amountUp, amountDown)
-{
+Math.moveTowards = function(current, target, amountUp, amountDown) {
     if (current<target) return Math.min(current+amountUp, target);
     else return Math.max(current-amountDown, target);
 }
 
-Math.gaussian = function()
-{
+Math.gaussian = function() {
     var s = 0;
     for (var c=0; c<16; c++) s+=Math.random();
     return (s-8)/4;
@@ -41,8 +38,7 @@ var isFirefox = false;
 var browser=navigator.userAgent.toLowerCase();
 if (browser.indexOf('firefox') > -1) isFirefox = true;
 
-var UI =
-{
+var UI = {
     width : 600,
     top_margin : 5,
     left_margin : 5,
@@ -51,8 +47,7 @@ var UI =
     instructionsLine : 0,
     debugText : "",
 
-    init : function()
-    {
+    init : function() {
         this.touchesWithMouse = [];
         this.mouseTouch = {alive: false, endTime: 0};
         this.mouseDown = false;
@@ -68,15 +63,12 @@ var UI =
 
         document.addEventListener('touchstart', (function(event) {event.preventDefault();}) );
 
-        document.addEventListener('mousedown', (function(event)
-            {UI.mouseDown = true; event.preventDefault(); UI.startMouse(event);}));
-        document.addEventListener('mouseup', (function(event)
-            {UI.mouseDown = false; UI.endMouse(event);}));
+        document.addEventListener('mousedown', (function(event) {UI.mouseDown = true; event.preventDefault(); UI.startMouse(event);}));
+        document.addEventListener('mouseup', (function(event) {UI.mouseDown = false; UI.endMouse(event);}));
         document.addEventListener('mousemove', UI.moveMouse);
     },
 
-    draw : function()
-    {
+    draw : function() {
         this.alwaysVoiceButton.draw(tractCtx);
         this.autoWobbleButton.draw(tractCtx);
         this.aboutButton.draw(tractCtx);
@@ -84,8 +76,7 @@ var UI =
         if (this.inInstructionsScreen) this.drawInstructionsScreen();
     },
 
-    drawAboutScreen :  function()
-    {
+    drawAboutScreen :  function() {
         var ctx = tractCtx;
         ctx.globalAlpha = 0.8;
         ctx.fillStyle = "white";
@@ -95,8 +86,7 @@ var UI =
         this.drawAboutText();
     },
 
-    drawAboutText : function()
-    {
+    drawAboutText : function() {
         var ctx = tractCtx;
         ctx.globalAlpha = 1.0;
         ctx.fillStyle = "#C070C6";
@@ -113,16 +103,14 @@ var UI =
         ctx.font="20px Arial";
         //ctx.fillText("(tap to start)", 300, 380);
 
-        if (isFirefox)
-        {
+        if (isFirefox) {
             ctx.font="20px Arial";
             ctx.fillText("(sorry - may work poorly with the Firefox browser)", 300, 430);
         }
     },
 
 
-    drawInstructionsScreen :  function()
-    {
+    drawInstructionsScreen :  function() {
         AudioSystem.mute();
         var ctx = tractCtx;
         ctx.globalAlpha = 0.85;
@@ -178,27 +166,23 @@ var UI =
     },
 
 
-    instructionsScreenHandleTouch : function(x,y)
-    {
+    instructionsScreenHandleTouch : function(x,y) {
         if ((x >=35 && x<=265) && (y>=535 && y<=570)) window.location.href = "http://venuspatrol.nfshost.com";
         else if ((x>=370 && x<=570) && (y>=505 && y<=555)) location.reload(false);
-        else
-        {
+        else {
             UI.inInstructionsScreen = false;
             UI.aboutButton.switchedOn = true;
             AudioSystem.unmute();
         }
     },
 
-    write : function(text)
-    {
+    write : function(text) {
         tractCtx.fillText(text, 50, 100 + this.instructionsLine*22);
         this.instructionsLine += 1;
         if (text == "") this.instructionsLine -= 0.3;
     },
 
-    buttonsHandleTouchStart : function(touch)
-    {
+    buttonsHandleTouchStart : function(touch) {
         this.alwaysVoiceButton.handleTouchStart(touch);
         alwaysVoice = this.alwaysVoiceButton.switchedOn;
         this.autoWobbleButton.handleTouchStart(touch);
@@ -207,26 +191,21 @@ var UI =
 
     },
 
-    startTouches : function(event)
-    {
+    startTouches : function(event) {
         event.preventDefault();
-        if (!AudioSystem.started)
-        {
+        if (!AudioSystem.started) {
             AudioSystem.started = true;
             AudioSystem.startSound();
         }
 
-        if (UI.inAboutScreen)
-        {
+        if (UI.inAboutScreen) {
             UI.inAboutScreen = false;
             return;
         }
 
-        if (UI.inInstructionsScreen)
-        {
+        if (UI.inInstructionsScreen) {
             var touches = event.changedTouches;
-            for (var j=0; j<touches.length; j++)
-            {
+            for (var j=0; j<touches.length; j++) {
                 var x = (touches[j].pageX-UI.left_margin)/UI.width*600;
                 var y = (touches[j].pageY-UI.top_margin)/UI.width*600;
             }
@@ -236,8 +215,7 @@ var UI =
 
 
         var touches = event.changedTouches;
-        for (var j=0; j<touches.length; j++)
-        {
+        for (var j=0; j<touches.length; j++) {
             var touch = {};
             touch.startTime = time;
             touch.endTime = 0;
@@ -255,23 +233,18 @@ var UI =
         UI.handleTouches();
     },
 
-    getTouchById : function(id)
-    {
-        for (var j=0; j<UI.touchesWithMouse.length; j++)
-        {
+    getTouchById : function(id) {
+        for (var j=0; j<UI.touchesWithMouse.length; j++) {
             if (UI.touchesWithMouse[j].id == id && UI.touchesWithMouse[j].alive) return UI.touchesWithMouse[j];
         }
         return 0;
     },
 
-    moveTouches : function(event)
-    {
+    moveTouches : function(event) {
         var touches = event.changedTouches;
-        for (var j=0; j<touches.length; j++)
-        {
+        for (var j=0; j<touches.length; j++) {
             var touch = UI.getTouchById(touches[j].identifier);
-            if (touch != 0)
-            {
+            if (touch != 0) {
                 touch.x = (touches[j].pageX-UI.left_margin)/UI.width*600;
                 touch.y = (touches[j].pageY-UI.top_margin)/UI.width*600;
                 touch.index = TractUI.getIndex(touch.x, touch.y);
@@ -281,45 +254,38 @@ var UI =
         UI.handleTouches();
     },
 
-    endTouches : function(event)
-    {
+    endTouches : function(event) {
         var touches = event.changedTouches;
-        for (var j=0; j<touches.length; j++)
-        {
+        for (var j=0; j<touches.length; j++) {
             var touch = UI.getTouchById(touches[j].identifier);
-            if (touch != 0)
-            {
+            if (touch != 0) {
                 touch.alive = false;
                 touch.endTime = time;
             }
         }
         UI.handleTouches();
 
-        if (!UI.aboutButton.switchedOn)
-        {
+        if (!UI.aboutButton.switchedOn) {
             UI.inInstructionsScreen = true;
         }
     },
 
-    startMouse : function(event)
-    {
-        if (!AudioSystem.started)
-        {
+    startMouse : function(event) {
+        if (!AudioSystem.started) {
             AudioSystem.started = true;
             AudioSystem.startSound();
         }
-        if (UI.inAboutScreen)
-        {
+        if (UI.inAboutScreen) {
             UI.inAboutScreen = false;
             return;
         }
-        if (UI.inInstructionsScreen)
-        {
+        if (UI.inInstructionsScreen) {
             var x = (event.pageX-tractCanvas.offsetLeft)/UI.width*600;
             var y = (event.pageY-tractCanvas.offsetTop)/UI.width*600;
             UI.instructionsScreenHandleTouch(x,y);
             return;
         }
+        console.log(event)
 
         var touch = {};
         touch.startTime = time;
@@ -337,8 +303,7 @@ var UI =
         UI.handleTouches();
     },
 
-    moveMouse : function(event)
-    {
+    moveMouse : function(event) {
         var touch = UI.mouseTouch;
         if (!touch.alive) return;
         touch.x = (event.pageX-tractCanvas.offsetLeft)/UI.width*600;
@@ -348,8 +313,7 @@ var UI =
         UI.handleTouches();
     },
 
-    endMouse : function(event)
-    {
+    endMouse : function(event) {
         var touch = UI.mouseTouch;
         if (!touch.alive) return;
         touch.alive = false;
@@ -359,43 +323,34 @@ var UI =
         if (!UI.aboutButton.switchedOn) UI.inInstructionsScreen = true;
     },
 
-    handleTouches : function(event)
-    {
+    handleTouches : function(event) {
         TractUI.handleTouches();
         Glottis.handleTouches();
     },
 
-    updateTouches : function()
-    {
+    updateTouches : function() {
         var fricativeAttackTime = 0.1;
-        for (var j=UI.touchesWithMouse.length-1; j >=0; j--)
-        {
+        for (var j=UI.touchesWithMouse.length-1; j >=0; j--) {
             var touch = UI.touchesWithMouse[j];
-            if (!(touch.alive) && (time > touch.endTime + 1))
-            {
+            if (!(touch.alive) && (time > touch.endTime + 1)) {
                 UI.touchesWithMouse.splice(j,1);
             }
-            else if (touch.alive)
-            {
+            else if (touch.alive) {
                 touch.fricative_intensity = Math.clamp((time-touch.startTime)/fricativeAttackTime, 0, 1);
             }
-            else
-            {
+            else {
                 touch.fricative_intensity = Math.clamp(1-(time-touch.endTime)/fricativeAttackTime, 0, 1);
             }
         }
     },
 
-    shapeToFitScreen : function()
-    {
-        if (window.innerWidth <= window.innerHeight)
-        {
+    shapeToFitScreen : function() {
+        if (window.innerWidth <= window.innerHeight) {
             this.width = window.innerWidth-10;
             this.left_margin = 5;
             this.top_margin = 0.5*(window.innerHeight-this.width);
         }
-        else
-        {
+        else {
             this.width = window.innerHeight-10;
             this.left_margin = 0.5*(window.innerWidth-this.width);
             this.top_margin = 5;
@@ -408,15 +363,13 @@ var UI =
 }
 
 
-var AudioSystem =
-{
+var AudioSystem = {
     blockLength : 512,
     blockTime : 1,
     started : false,
     soundOn : false,
 
-    init : function ()
-    {
+    init : function () {
         window.AudioContext = window.AudioContext||window.webkitAudioContext;
         this.audioContext = new window.AudioContext();
         sampleRate = this.audioContext.sampleRate;
@@ -424,8 +377,7 @@ var AudioSystem =
         this.blockTime = this.blockLength/sampleRate;
     },
 
-    startSound : function()
-    {
+    startSound : function() {
         //scriptProcessor may need a dummy input channel on iOS
         this.scriptProcessor = this.audioContext.createScriptProcessor(this.blockLength, 2, 1);
         this.scriptProcessor.connect(this.audioContext.destination);
@@ -450,13 +402,11 @@ var AudioSystem =
         whiteNoise.start(0);
     },
 
-    createWhiteNoiseNode : function(frameCount)
-    {
+    createWhiteNoiseNode : function(frameCount) {
         var myArrayBuffer = this.audioContext.createBuffer(1, frameCount, sampleRate);
 
         var nowBuffering = myArrayBuffer.getChannelData(0);
-        for (var i = 0; i < frameCount; i++)
-        {
+        for (var i = 0; i < frameCount; i++) {
             nowBuffering[i] = Math.random();// gaussian();
         }
 
@@ -468,13 +418,11 @@ var AudioSystem =
     },
 
 
-    doScriptProcessor : function(event)
-    {
+    doScriptProcessor : function(event) {
         var inputArray1 = event.inputBuffer.getChannelData(0);
         var inputArray2 = event.inputBuffer.getChannelData(1);
         var outArray = event.outputBuffer.getChannelData(0);
-        for (var j = 0, N = outArray.length; j < N; j++)
-        {
+        for (var j = 0, N = outArray.length; j < N; j++) {
             var lambda1 = j/N;
             var lambda2 = (j+0.5)/N;
             var glottalOutput = Glottis.runStep(lambda1, inputArray1[j]);
@@ -491,21 +439,18 @@ var AudioSystem =
         Tract.finishBlock();
     },
 
-    mute : function()
-    {
+    mute : function() {
         this.scriptProcessor.disconnect();
     },
 
-    unmute : function()
-    {
+    unmute : function() {
         this.scriptProcessor.connect(this.audioContext.destination);
     }
 
 }
 
 
-var Glottis =
-{
+var Glottis = {
     timeInWaveform : 0,
     oldFrequency : 140,
     newFrequency : 140,
@@ -533,14 +478,12 @@ var Glottis =
     marks : [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
     baseNote : 87.3071, //F
 
-    init : function()
-    {
+    init : function() {
         this.setupWaveform(0);
         this.drawKeyboard();
     },
 
-    drawKeyboard : function()
-    {
+    drawKeyboard : function() {
         this.ctx.strokeStyle = palePink;
         this.ctx.fillStyle = palePink;
         backCtx.globalAlpha = 1.0;
@@ -555,18 +498,15 @@ var Glottis =
 
         backCtx.strokeStyle = "orchid";
         backCtx.fillStyle = "orchid";
-        for (var i=0; i< this.semitones; i++)
-        {
+        for (var i=0; i< this.semitones; i++) {
             var keyWidth = this.keyboardWidth/this.semitones;
             var x = this.keyboardLeft+(i+1/2)*keyWidth;
             var y = this.keyboardTop;
-            if (this.marks[(i+3)%12]==1)
-            {
+            if (this.marks[(i+3)%12]==1) {
                 backCtx.lineWidth = 4;
                 backCtx.globalAlpha = 0.4;
             }
-            else
-            {
+            else {
                 backCtx.lineWidth = 3;
                 backCtx.globalAlpha = 0.2;
             }
@@ -604,8 +544,7 @@ var Glottis =
         backCtx.globalAlpha=1.0;
     },
 
-    drawBar : function(topFactor, bottomFactor, radius)
-    {
+    drawBar : function(topFactor, bottomFactor, radius) {
         backCtx.lineWidth = radius*2;
         backCtx.beginPath();
         backCtx.moveTo(this.keyboardLeft+radius, this.keyboardTop+topFactor*this.keyboardHeight+radius);
@@ -617,8 +556,7 @@ var Glottis =
         backCtx.fill();
     },
 
-    drawArrow : function(l, ahw, ahl)
-    {
+    drawArrow : function(l, ahw, ahl) {
         backCtx.lineWidth = 2;
         backCtx.beginPath();
         backCtx.moveTo(-l, 0);
@@ -632,14 +570,11 @@ var Glottis =
         backCtx.fill();
     },
 
-    handleTouches :  function()
-    {
+    handleTouches :  function() {
         if (this.touch != 0 && !this.touch.alive) this.touch = 0;
 
-        if (this.touch == 0)
-        {
-            for (var j=0; j<UI.touchesWithMouse.length; j++)
-            {
+        if (this.touch == 0) {
+            for (var j=0; j<UI.touchesWithMouse.length; j++) {
                 var touch = UI.touchesWithMouse[j];
                 if (!touch.alive) continue;
                 if (touch.y<this.keyboardTop) continue;
@@ -647,8 +582,7 @@ var Glottis =
             }
         }
 
-        if (this.touch != 0)
-        {
+        if (this.touch != 0) {
             var local_y = this.touch.y -  this.keyboardTop-10;
             var local_x = this.touch.x - this.keyboardLeft;
             local_y = Math.clamp(local_y, 0, this.keyboardHeight-26);
@@ -665,13 +599,11 @@ var Glottis =
         Glottis.isTouched = (this.touch != 0);
     },
 
-    runStep : function(lambda, noiseSource)
-    {
+    runStep : function(lambda, noiseSource) {
         var timeStep = 1.0 / sampleRate;
         this.timeInWaveform += timeStep;
         this.totalTime += timeStep;
-        if (this.timeInWaveform>this.waveformLength)
-        {
+        if (this.timeInWaveform>this.waveformLength) {
             this.timeInWaveform -= this.waveformLength;
             this.setupWaveform(lambda);
         }
@@ -682,21 +614,18 @@ var Glottis =
         return out;
     },
 
-    getNoiseModulator : function()
-    {
+    getNoiseModulator : function() {
         var voiced = 0.1+0.2*Math.max(0,Math.sin(Math.PI*2*this.timeInWaveform/this.waveformLength));
         //return 0.3;
         return this.UITenseness* this.intensity * voiced + (1-this.UITenseness* this.intensity ) * 0.3;
     },
 
-    finishBlock : function()
-    {
+    finishBlock : function() {
         var vibrato = 0;
         vibrato += this.vibratoAmount * Math.sin(2*Math.PI * this.totalTime *this.vibratoFrequency);
         vibrato += 0.02 * noise.simplex1(this.totalTime * 4.07);
         vibrato += 0.04 * noise.simplex1(this.totalTime * 2.15);
-        if (autoWobble)
-        {
+        if (autoWobble) {
             vibrato += 0.2 * noise.simplex1(this.totalTime * 0.98);
             vibrato += 0.4 * noise.simplex1(this.totalTime * 0.5);
         }
@@ -716,8 +645,7 @@ var Glottis =
         this.intensity = Math.clamp(this.intensity, 0, 1);
     },
 
-    setupWaveform : function(lambda)
-    {
+    setupWaveform : function(lambda) {
         this.frequency = this.oldFrequency*(1-lambda) + this.newFrequency*lambda;
         var tenseness = this.oldTenseness*(1-lambda) + this.newTenseness*lambda;
         this.Rd = 3*(1-tenseness);
@@ -770,8 +698,7 @@ var Glottis =
     },
 
 
-    normalizedLFWaveform: function(t)
-    {
+    normalizedLFWaveform: function(t) {
         if (t>this.Te) output = (-Math.exp(-this.epsilon * (t-this.Te)) + this.shift)/this.Delta;
         else output = this.E0 * Math.exp(this.alpha*t) * Math.sin(this.omega * t);
 
@@ -780,8 +707,7 @@ var Glottis =
 }
 
 
-var Tract =
-{
+var Tract = {
     n : 44,
     bladeStart : 10,
     tipStart : 32,
@@ -807,8 +733,7 @@ var Tract =
     noseOutput : 0,
     velumTarget : 0.01,
 
-    init : function()
-    {
+    init : function() {
         this.bladeStart = Math.floor(this.bladeStart*this.n/44);
         this.tipStart = Math.floor(this.tipStart*this.n/44);
         this.lipStart = Math.floor(this.lipStart*this.n/44);
@@ -816,8 +741,7 @@ var Tract =
         this.restDiameter = new Float64Array(this.n);
         this.targetDiameter = new Float64Array(this.n);
         this.newDiameter = new Float64Array(this.n);
-        for (var i=0; i<this.n; i++)
-        {
+        for (var i=0; i<this.n; i++) {
             var diameter = 0;
             if (i<7*this.n/44-0.5) diameter = 0.6;
             else if (i<12*this.n/44) diameter = 1.1;
@@ -843,8 +767,7 @@ var Tract =
         this.noseDiameter = new Float64Array(this.noseLength);
         this.noseA = new Float64Array(this.noseLength);
         this.noseMaxAmplitude = new Float64Array(this.noseLength);
-        for (var i=0; i<this.noseLength; i++)
-        {
+        for (var i=0; i<this.noseLength; i++) {
             var diameter;
             var d = 2*(i/this.noseLength);
             if (d<1) diameter = 0.4+1.6*d;
@@ -858,12 +781,10 @@ var Tract =
         this.noseDiameter[0] = this.velumTarget;
     },
 
-    reshapeTract : function(deltaTime)
-    {
+    reshapeTract : function(deltaTime) {
         var amount = deltaTime * this.movementSpeed; ;
         var newLastObstruction = -1;
-        for (var i=0; i<this.n; i++)
-        {
+        for (var i=0; i<this.n; i++) {
             var diameter = this.diameter[i];
             var targetDiameter = this.targetDiameter[i];
             if (diameter <= 0) newLastObstruction = i;
@@ -873,8 +794,7 @@ var Tract =
             else slowReturn = 0.6+0.4*(i-this.noseStart)/(this.tipStart-this.noseStart);
             this.diameter[i] = Math.moveTowards(diameter, targetDiameter, slowReturn*amount, 2*amount);
         }
-        if (this.lastObstruction>-1 && newLastObstruction == -1 && this.noseA[0]<0.05)
-        {
+        if (this.lastObstruction>-1 && newLastObstruction == -1 && this.noseA[0]<0.05) {
             this.addTransient(this.lastObstruction);
         }
         this.lastObstruction = newLastObstruction;
@@ -885,14 +805,11 @@ var Tract =
         this.noseA[0] = this.noseDiameter[0]*this.noseDiameter[0];
     },
 
-    calculateReflections : function()
-    {
-        for (var i=0; i<this.n; i++)
-        {
+    calculateReflections : function() {
+        for (var i=0; i<this.n; i++) {
             this.A[i] = this.diameter[i]*this.diameter[i]; //ignoring PI etc.
         }
-        for (var i=1; i<this.n; i++)
-        {
+        for (var i=1; i<this.n; i++) {
             this.reflection[i] = this.newReflection[i];
             if (this.A[i] == 0) this.newReflection[i] = 0.999; //to prevent some bad behaviour if 0
             else this.newReflection[i] = (this.A[i-1]-this.A[i]) / (this.A[i-1]+this.A[i]);
@@ -909,20 +826,16 @@ var Tract =
         this.newReflectionNose = (2*this.noseA[0]-sum)/sum;
     },
 
-    calculateNoseReflections : function()
-    {
-        for (var i=0; i<this.noseLength; i++)
-        {
+    calculateNoseReflections : function() {
+        for (var i=0; i<this.noseLength; i++) {
             this.noseA[i] = this.noseDiameter[i]*this.noseDiameter[i];
         }
-        for (var i=1; i<this.noseLength; i++)
-        {
+        for (var i=1; i<this.noseLength; i++) {
             this.noseReflection[i] = (this.noseA[i-1]-this.noseA[i]) / (this.noseA[i-1]+this.noseA[i]);
         }
     },
 
-    runStep : function(glottalOutput, turbulenceNoise, lambda)
-    {
+    runStep : function(glottalOutput, turbulenceNoise, lambda) {
         var updateAmplitudes = (Math.random()<0.1);
 
         //mouth
@@ -933,8 +846,7 @@ var Tract =
         this.junctionOutputR[0] = this.L[0] * this.glottalReflection + glottalOutput;
         this.junctionOutputL[this.n] = this.R[this.n-1] * this.lipReflection;
 
-        for (var i=1; i<this.n; i++)
-        {
+        for (var i=1; i<this.n; i++) {
             var r = this.reflection[i] * (1-lambda) + this.newReflection[i]*lambda;
             var w = r * (this.R[i-1] + this.L[i]);
             this.junctionOutputR[i] = this.R[i-1] - w;
@@ -950,16 +862,14 @@ var Tract =
         r = this.newReflectionNose * (1-lambda) + this.reflectionNose*lambda;
         this.noseJunctionOutputR[0] = r*this.noseL[0]+(1+r)*(this.L[i]+this.R[i-1]);
 
-        for (var i=0; i<this.n; i++)
-        {
+        for (var i=0; i<this.n; i++) {
             this.R[i] = this.junctionOutputR[i]*0.999;
             this.L[i] = this.junctionOutputL[i+1]*0.999;
 
             //this.R[i] = Math.clamp(this.junctionOutputR[i] * this.fade, -1, 1);
             //this.L[i] = Math.clamp(this.junctionOutputL[i+1] * this.fade, -1, 1);
 
-            if (updateAmplitudes)
-            {
+            if (updateAmplitudes) {
                 var amplitude = Math.abs(this.R[i]+this.L[i]);
                 if (amplitude > this.maxAmplitude[i]) this.maxAmplitude[i] = amplitude;
                 else this.maxAmplitude[i] *= 0.999;
@@ -971,23 +881,20 @@ var Tract =
         //nose
         this.noseJunctionOutputL[this.noseLength] = this.noseR[this.noseLength-1] * this.lipReflection;
 
-        for (var i=1; i<this.noseLength; i++)
-        {
+        for (var i=1; i<this.noseLength; i++) {
             var w = this.noseReflection[i] * (this.noseR[i-1] + this.noseL[i]);
             this.noseJunctionOutputR[i] = this.noseR[i-1] - w;
             this.noseJunctionOutputL[i] = this.noseL[i] + w;
         }
 
-        for (var i=0; i<this.noseLength; i++)
-        {
+        for (var i=0; i<this.noseLength; i++) {
             this.noseR[i] = this.noseJunctionOutputR[i] * this.fade;
             this.noseL[i] = this.noseJunctionOutputL[i+1] * this.fade;
 
             //this.noseR[i] = Math.clamp(this.noseJunctionOutputR[i] * this.fade, -1, 1);
             //this.noseL[i] = Math.clamp(this.noseJunctionOutputL[i+1] * this.fade, -1, 1);
 
-            if (updateAmplitudes)
-            {
+            if (updateAmplitudes) {
                 var amplitude = Math.abs(this.noseR[i]+this.noseL[i]);
                 if (amplitude > this.noseMaxAmplitude[i]) this.noseMaxAmplitude[i] = amplitude;
                 else this.noseMaxAmplitude[i] *= 0.999;
@@ -998,14 +905,12 @@ var Tract =
 
     },
 
-    finishBlock : function()
-    {
+    finishBlock : function() {
         this.reshapeTract(AudioSystem.blockTime);
         this.calculateReflections();
     },
 
-    addTransient : function(position)
-    {
+    addTransient : function(position) {
         var trans = {}
         trans.position = position;
         trans.timeAlive = 0;
@@ -1015,30 +920,24 @@ var Tract =
         this.transients.push(trans);
     },
 
-    processTransients : function()
-    {
-        for (var i = 0; i < this.transients.length; i++)
-        {
+    processTransients : function() {
+        for (var i = 0; i < this.transients.length; i++) {
             var trans = this.transients[i];
             var amplitude = trans.strength * Math.pow(2, -trans.exponent * trans.timeAlive);
             this.R[trans.position] += amplitude/2;
             this.L[trans.position] += amplitude/2;
             trans.timeAlive += 1.0/(sampleRate*2);
         }
-        for (var i=this.transients.length-1; i>=0; i--)
-        {
+        for (var i=this.transients.length-1; i>=0; i--) {
             var trans = this.transients[i];
-            if (trans.timeAlive > trans.lifeTime)
-            {
+            if (trans.timeAlive > trans.lifeTime) {
                 this.transients.splice(i,1);
             }
         }
     },
 
-    addTurbulenceNoise : function(turbulenceNoise)
-    {
-        for (var j=0; j<UI.touchesWithMouse.length; j++)
-        {
+    addTurbulenceNoise : function(turbulenceNoise) {
+        for (var j=0; j<UI.touchesWithMouse.length; j++) {
             var touch = UI.touchesWithMouse[j];
             if (touch.index<2 || touch.index>Tract.n) continue;
             if (touch.diameter<=0) continue;
@@ -1048,8 +947,7 @@ var Tract =
         }
     },
 
-    addTurbulenceNoiseAtIndex : function(turbulenceNoise, index, diameter)
-    {
+    addTurbulenceNoiseAtIndex : function(turbulenceNoise, index, diameter) {
         var i = Math.floor(index);
         var delta = index - i;
         turbulenceNoise *= Glottis.getNoiseModulator();
@@ -1065,8 +963,7 @@ var Tract =
 };
 
 
-var TractUI =
-{
+var TractUI = {
     originX : 340,
     originY : 449,
     radius : 298,
@@ -1083,12 +980,10 @@ var TractUI =
     fillColour : 'pink',
     lineColour : '#C070C6',
 
-    init : function()
-    {
+    init : function() {
         this.ctx = tractCtx;
         this.setRestDiameter();
-        for (var i=0; i<Tract.n; i++)
-        {
+        for (var i=0; i<Tract.n; i++) {
             Tract.diameter[i] = Tract.targetDiameter[i] = Tract.restDiameter[i];
         }
         this.drawBackground();
@@ -1097,8 +992,7 @@ var TractUI =
         this.tongueIndexCentre = 0.5*(this.tongueLowerIndexBound+this.tongueUpperIndexBound);
     },
 
-    moveTo : function(i,d)
-    {
+    moveTo : function(i,d) {
         var angle = this.angleOffset + i * this.angleScale * Math.PI / (Tract.lipStart-1);
         var wobble = (Tract.maxAmplitude[Tract.n-1]+Tract.noseMaxAmplitude[Tract.noseLength-1]);
         wobble *= 0.03*Math.sin(2*i-50*time)*i/Tract.n;
@@ -1107,8 +1001,7 @@ var TractUI =
         this.ctx.moveTo(this.originX-r*Math.cos(angle), this.originY-r*Math.sin(angle));
     },
 
-    lineTo : function(i,d)
-    {
+    lineTo : function(i,d) {
         var angle = this.angleOffset + i * this.angleScale * Math.PI / (Tract.lipStart-1);
         var wobble = (Tract.maxAmplitude[Tract.n-1]+Tract.noseMaxAmplitude[Tract.noseLength-1]);
         wobble *= 0.03*Math.sin(2*i-50*time)*i/Tract.n;
@@ -1117,8 +1010,7 @@ var TractUI =
         this.ctx.lineTo(this.originX-r*Math.cos(angle), this.originY-r*Math.sin(angle));
     },
 
-    drawText : function(i,d,text)
-    {
+    drawText : function(i,d,text) {
         var angle = this.angleOffset + i * this.angleScale * Math.PI / (Tract.lipStart-1);
         var r = this.radius - this.scale*d;
         this.ctx.save();
@@ -1128,8 +1020,7 @@ var TractUI =
         this.ctx.restore();
     },
 
-    drawTextStraight : function(i,d,text)
-    {
+    drawTextStraight : function(i,d,text) {
         var angle = this.angleOffset + i * this.angleScale * Math.PI / (Tract.lipStart-1);
         var r = this.radius - this.scale*d;
         this.ctx.save();
@@ -1139,8 +1030,7 @@ var TractUI =
         this.ctx.restore();
     },
 
-    drawCircle : function(i,d,radius)
-    {
+    drawCircle : function(i,d,radius) {
         var angle = this.angleOffset + i * this.angleScale * Math.PI / (Tract.lipStart-1);
         var r = this.radius - this.scale*d;
         this.ctx.beginPath();
@@ -1148,21 +1038,18 @@ var TractUI =
         this.ctx.fill();
     },
 
-    getIndex : function(x,y)
-    {
+    getIndex : function(x,y) {
         var xx = x-this.originX; var yy = y-this.originY;
         var angle = Math.atan2(yy, xx);
         while (angle> 0) angle -= 2*Math.PI;
         return (Math.PI + angle - this.angleOffset)*(Tract.lipStart-1) / (this.angleScale*Math.PI);
     },
-    getDiameter : function(x,y)
-    {
+    getDiameter : function(x,y) {
         var xx = x-this.originX; var yy = y-this.originY;
         return (this.radius-Math.sqrt(xx*xx + yy*yy))/this.scale;
     },
 
-    draw : function()
-    {
+    draw : function() {
         this.ctx.clearRect(0, 0, tractCanvas.width, tractCanvas.height);
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
@@ -1276,8 +1163,7 @@ var TractUI =
         //this.drawPositions();
     },
 
-    drawBackground : function()
-    {
+    drawBackground : function() {
         this.ctx = backCtx;
 
 
@@ -1310,8 +1196,7 @@ var TractUI =
         this.ctx = tractCtx;
     },
 
-    drawPositions : function()
-    {
+    drawPositions : function() {
         this.ctx.fillStyle = "orchid";
         this.ctx.font="24px Arial";
         this.ctx.textAlign = "center";
@@ -1343,8 +1228,7 @@ var TractUI =
         //?
         this.drawText(4.5, 0.37, 'h');
 
-        if (Glottis.isTouched || alwaysVoice)
-        {
+        if (Glottis.isTouched || alwaysVoice) {
             //voiced consonants
             this.drawText(31.5, fricatives, 'ʒ');
             this.drawText(36, fricatives, 'z');
@@ -1356,8 +1240,7 @@ var TractUI =
             this.drawText(36, nasals, 'n');
             this.drawText(41, nasals, 'm');
         }
-        else
-        {
+        else {
             //unvoiced consonants
             this.drawText(31.5, fricatives, 'ʃ');
             this.drawText(36, fricatives, 's');
@@ -1371,21 +1254,18 @@ var TractUI =
         }
     },
 
-    drawAmplitudes : function()
-    {
+    drawAmplitudes : function() {
         this.ctx.strokeStyle = "orchid";
         this.ctx.lineCap = "butt";
         this.ctx.globalAlpha = 0.3;
-        for (var i=2; i<Tract.n-1; i++)
-        {
+        for (var i=2; i<Tract.n-1; i++) {
             this.ctx.beginPath();
             this.ctx.lineWidth = Math.sqrt(Tract.maxAmplitude[i])*3;
             this.moveTo(i, 0);
             this.lineTo(i, Tract.diameter[i]);
             this.ctx.stroke();
         }
-        for (var i=1; i<Tract.noseLength-1; i++)
-        {
+        for (var i=1; i<Tract.noseLength-1; i++) {
             this.ctx.beginPath();
             this.ctx.lineWidth = Math.sqrt(Tract.noseMaxAmplitude[i]) * 3;
             this.moveTo(i+Tract.noseStart, -this.noseOffset);
@@ -1395,8 +1275,7 @@ var TractUI =
         this.ctx.globalAlpha = 1;
     },
 
-    drawTongueControl : function()
-    {
+    drawTongueControl : function() {
         this.ctx.lineCap = "round";
         this.ctx.lineJoin = "round";
         this.ctx.strokeStyle = palePink;
@@ -1449,12 +1328,10 @@ var TractUI =
         this.ctx.fillStyle = "orchid";
      },
 
-    drawPitchControl : function()
-    {
+    drawPitchControl : function() {
         var w=9;
         var h=15;
-        if (Glottis.x)
-        {
+        if (Glottis.x) {
             this.ctx.lineWidth = 4;
             this.ctx.strokeStyle = "orchid";
             this.ctx.globalAlpha = 0.7;
@@ -1471,10 +1348,8 @@ var TractUI =
         }
     },
 
-    setRestDiameter : function()
-    {
-        for (var i=Tract.bladeStart; i<Tract.lipStart; i++)
-        {
+    setRestDiameter : function() {
+        for (var i=Tract.bladeStart; i<Tract.lipStart; i++) {
             var t = 1.1 * Math.PI*(this.tongueIndex - i)/(Tract.tipStart - Tract.bladeStart);
             var fixedTongueDiameter = 2+(this.tongueDiameter-2)/1.5;
             var curve = (1.5-fixedTongueDiameter+this.gridOffset)*Math.cos(t);
@@ -1484,14 +1359,11 @@ var TractUI =
         }
     },
 
-    handleTouches : function()
-    {
+    handleTouches : function() {
         if (this.tongueTouch != 0 && !this.tongueTouch.alive) this.tongueTouch = 0;
 
-        if (this.tongueTouch == 0)
-        {
-            for (var j=0; j<UI.touchesWithMouse.length; j++)
-            {
+        if (this.tongueTouch == 0) {
+            for (var j=0; j<UI.touchesWithMouse.length; j++) {
                 var touch = UI.touchesWithMouse[j];
                 if (!touch.alive) continue;
                 if (touch.fricative_intensity == 1) continue; //only new touches will pass this
@@ -1507,8 +1379,7 @@ var TractUI =
             }
         }
 
-        if (this.tongueTouch != 0)
-        {
+        if (this.tongueTouch != 0) {
             var x = this.tongueTouch.x;
             var y = this.tongueTouch.y;
             var index = TractUI.getIndex(x,y);
@@ -1527,16 +1398,14 @@ var TractUI =
 
         //other constrictions and nose
         Tract.velumTarget = 0.01;
-        for (var j=0; j<UI.touchesWithMouse.length; j++)
-        {
+        for (var j=0; j<UI.touchesWithMouse.length; j++) {
             var touch = UI.touchesWithMouse[j];
             if (!touch.alive) continue;
             var x = touch.x;
             var y = touch.y;
             var index = TractUI.getIndex(x,y);
             var diameter = TractUI.getDiameter(x,y);
-            if (index > Tract.noseStart && diameter < -this.noseOffset)
-            {
+            if (index > Tract.noseStart && diameter < -this.noseOffset) {
                 Tract.velumTarget = 0.4;
             }
             temp.a = index;
@@ -1548,8 +1417,7 @@ var TractUI =
             if (index<25) width = 10;
             else if (index>=Tract.tipStart) width= 5;
             else width = 10-5*(index-25)/(Tract.tipStart-25);
-            if (index >= 2 && index < Tract.n && y<tractCanvas.height && diameter < 3)
-            {
+            if (index >= 2 && index < Tract.n && y<tractCanvas.height && diameter < 3) {
                 intIndex = Math.round(index);
                 for (var i=-Math.ceil(width)-1; i<width+1; i++)
                 {
@@ -1560,8 +1428,7 @@ var TractUI =
                     if (relpos <= 0) shrink = 0;
                     else if (relpos > width) shrink = 1;
                     else shrink = 0.5*(1-Math.cos(Math.PI * relpos / width));
-                    if (diameter < Tract.targetDiameter[intIndex+i])
-                    {
+                    if (diameter < Tract.targetDiameter[intIndex+i]) {
                         Tract.targetDiameter[intIndex+i] = diameter + (Tract.targetDiameter[intIndex+i]-diameter)*shrink;
                     }
                 }
@@ -1572,8 +1439,7 @@ var TractUI =
 }
 
 
-function makeButton(x, y, width, height, text, switchedOn)
-{
+function makeButton(x, y, width, height, text, switchedOn) {
     button = {};
     button.x = x;
     button.y = y;
@@ -1582,8 +1448,7 @@ function makeButton(x, y, width, height, text, switchedOn)
     button.text = text;
     button.switchedOn = switchedOn;
 
-    button.draw = function(ctx)
-    {
+    button.draw = function(ctx) {
         var radius = 10;
         ctx.strokeStyle = palePink;
         ctx.fillStyle = palePink;
@@ -1603,29 +1468,24 @@ function makeButton(x, y, width, height, text, switchedOn)
 
         ctx.font="16px Arial";
         ctx.textAlign = "center";
-        if (this.switchedOn)
-        {
+        if (this.switchedOn) {
             ctx.fillStyle = "orchid";
             ctx.globalAlpha = 0.6;
         }
-        else
-        {
+        else {
             ctx.fillStyle = "white";
             ctx.globalAlpha = 1.0;
         }
         this.drawText(ctx);
     };
 
-    button.drawText = function(ctx)
-    {
+    button.drawText = function(ctx) {
         ctx.fillText(this.text, this.x+this.width/2, this.y+this.height/2+6);
     };
 
-    button.handleTouchStart = function(touch)
-    {
+    button.handleTouchStart = function(touch) {
         if (touch.x>=this.x && touch.x <= this.x + this.width
-            && touch.y >= this.y && touch.y <= this.y + this.height)
-        {
+            && touch.y >= this.y && touch.y <= this.y + this.height) {
             this.switchedOn = !this.switchedOn;
         }
     };
@@ -1643,8 +1503,7 @@ Tract.init();
 TractUI.init();
 
 requestAnimationFrame(redraw);
-function redraw(highResTimestamp)
-{
+function redraw(highResTimestamp) {
     UI.shapeToFitScreen();
     TractUI.draw();
     UI.draw();
