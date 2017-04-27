@@ -80,8 +80,8 @@ var UI =
         this.alwaysVoiceButton.draw(tractCtx);
         this.autoWobbleButton.draw(tractCtx);
         this.aboutButton.draw(tractCtx);
-        if (this.inAboutScreen) this.drawAboutScreen();
-        else if (this.inInstructionsScreen) this.drawInstructionsScreen();
+        // if (this.inAboutScreen) this.drawAboutScreen();
+        if (this.inInstructionsScreen) this.drawInstructionsScreen();
     },
 
     drawAboutScreen :  function()
