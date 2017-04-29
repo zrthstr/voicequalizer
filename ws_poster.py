@@ -17,7 +17,8 @@ def on_close(ws):
 
 def on_open(ws):
     def run(*args):
-        for i in range(3):
+        time.sleep(2)
+        for i in range(1):
             minx = miny = 0
             maxx = maxy = 600
             minfac = 300
@@ -38,7 +39,7 @@ def on_open(ws):
             print("MOVEMENT:",jmovement)
             ws.send(jmovement)
             #ws.send("Hello %d" % i)
-            time.sleep(5)
+            time.sleep(3)
 
         ws.close()
         print "thread terminating..."
