@@ -269,7 +269,6 @@ var UI = {
     },
 
     startMouse : function(event) {
-        console.log('start mouse event', event)
         if (!AudioSystem.started) {
             AudioSystem.started = true;
             AudioSystem.startSound();
@@ -302,6 +301,7 @@ var UI = {
     },
 
     moveMouse : function(event) {
+        console.log('in moveMouse')
         var touch = UI.mouseTouch;
         if (!touch.alive) return;
         touch.x = (event.pageX-tractCanvas.offsetLeft)/UI.width*600;
