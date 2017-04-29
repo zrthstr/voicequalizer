@@ -61,7 +61,8 @@ function doDisconnect() {
   websocket.close()
 }
 
-function doMouse(pageX, pageY, t) {
-  w.UI.startMouse({pageX, pageY})
-  window.setTimeout(w.UI.endMouse, t)
+function doMouse({x, y, duration}) {
+  console.log('in do mouse with', x, y, duration)
+  w.UI.startMouse({pageX: x, pageY: y})
+  window.setTimeout(w.UI.endMouse, duration)
 }

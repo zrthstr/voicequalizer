@@ -109,7 +109,6 @@ var UI = {
         }
     },
 
-
     drawInstructionsScreen :  function() {
         AudioSystem.mute();
         var ctx = tractCtx;
@@ -164,7 +163,6 @@ var UI = {
 
         ctx.globalAlpha = 1.0;
     },
-
 
     instructionsScreenHandleTouch : function(x,y) {
         if ((x >=35 && x<=265) && (y>=535 && y<=570)) window.location.href = "http://venuspatrol.nfshost.com";
@@ -271,6 +269,7 @@ var UI = {
     },
 
     startMouse : function(event) {
+        console.log('start mouse event', event)
         if (!AudioSystem.started) {
             AudioSystem.started = true;
             AudioSystem.startSound();
@@ -285,7 +284,6 @@ var UI = {
             UI.instructionsScreenHandleTouch(x,y);
             return;
         }
-        console.log(event)
 
         var touch = {};
         touch.startTime = time;
