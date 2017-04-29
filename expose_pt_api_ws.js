@@ -35,6 +35,12 @@ function onMessage(evt) {
   writeToScreen(w.alwaysVoice)
   writeToScreen('\n')
   writeToScreen("response: " + evt.data + '\n')
+  const message = evt.data.split(' - ')[1]
+
+  try {
+    const mouseMovement = JSON.parse(message)
+    doMouseMovement(mouseMovement)
+  } catch (_) {}
 }
 function onError(evt) {
   writeToScreen('error: ' + evt.data + '\n')
@@ -73,7 +79,8 @@ const getPoints = numTouches => start => step =>
     .map((_, i) => start + step * i)
 
 function doMouseMovement({ start, stop, duration }) {
-  const stepDuration = 10
+  console.log('in doMouseMovement with', start, stop, duration)
+  const stepDuration = 5
   const numTouches = Math.floor(duration / stepDuration)
 
   const xRange = stop.x - start.x
