@@ -7,10 +7,13 @@ https://github.com/evykassirer/pink-trombone
 https://github.com/dpallot/simple-websocket-server/
 https://github.com/mLupine/SoundflowerBed/releases
 https://github.com/Uberi/speech_recognition/tree/master/examples
+https://github.com/cmusphinx/pocketsphinx
 
 ### setup
 #### all
 see requirements
 #### osx
 brew install portaudio
+brew install cmu-pocketsphinx
+brew install swig
 

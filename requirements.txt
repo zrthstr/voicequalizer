@@ -2,3 +2,4 @@ websocket
 websocket-client
 SpeechRecognition
 pyaudio
+pocketsphinx
