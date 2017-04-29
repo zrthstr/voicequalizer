@@ -4,16 +4,7 @@ trying to teach https://dood.al/pinktrombone/ to make more human sounds aka spea
 
 ```
                                                                                                                                          
-   +---------------------+                         +---------------------+                                                               
-   |                     |                         |                     |                                                               
-   |      HTTP Server    |                      /- |  Web Socket Server  |                                                               
-   |                     |                     /   |                     |                                                               
-   +----------|----------+                    /    +---------------------+                                                               
-              |                              /                |                                                                          
-          Index.html     --- << Command.json-             Next step                                                                      
-              |         /                                     |                                                                          
-              |        /                                      |                                                                          
-                                                                                                                                           
+                                                                                                                                         
    +---------------------+                         +---------------------+                                                               
    |                     |                         |                     |                                                               
    |      HTTP Server    |                      /- |  Web Socket Server  |                                                               
@@ -37,16 +28,15 @@ trying to teach https://dood.al/pinktrombone/ to make more human sounds aka spea
    |    SoundFlower      |--------Audio >>-------- | PySpeechRecognition |                                                               
    |                     |                         |                     |                                                               
    +---------------------+                         +---------------------+                                                               
-                                                              |                                                                          
-                                                              |                                                                          
-                                                              |                                                                          
+                                                             ||                                                                          
+                                                             ||                                                                          
+                                                             ||                                                                          
                                                        Recogniced Text.                                                                  
-                                                              |                                                                          
-                                                              |                                                                          
-                                                           ----- -                                                                       
-                                                            \   /                                                                        
-                                                             \ /                                                               
-                                            
+                                                             ||                                                                          
+                                                             ||                                                                          
+                                                           - || -                                                                        
+                                                            \  /                                                                         
+                                                             \/                                                                          
 
 ```
 ### thanks to:
