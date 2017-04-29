@@ -2,6 +2,53 @@
 
 trying to teach https://dood.al/pinktrombone/ to make more human sounds aka speaking by hooking it to a Voice recognition software and applying ML
 
+```
+                                                                                                                                         
+   +---------------------+                         +---------------------+                                                               
+   |                     |                         |                     |                                                               
+   |      HTTP Server    |                      /- |  Web Socket Server  |                                                               
+   |                     |                     /   |                     |                                                               
+   +----------|----------+                    /    +---------------------+                                                               
+              |                              /                |                                                                          
+          Index.html     --- << Command.json-             Next step                                                                      
+              |         /                                     |                                                                          
+              |        /                                      |                                                                          
+                                                                                                                                           
+   +---------------------+                         +---------------------+                                                               
+   |                     |                         |                     |                                                               
+   |      HTTP Server    |                      /- |  Web Socket Server  |                                                               
+   |                     |                     /   |                     |                                                               
+   +----------|----------+                    /    +---------------------+                                                               
+              |                              /                |                                                                          
+          Index.html     --- << Command.json-             Next step                                                                      
+              |         /                                     |                                                                          
+              |        /                                      |                                                                          
+   +---------------------+                         +---------------------+                                                               
+   |                     |                         |                     |                                                               
+   |    Pink Trombone                              | WebSocket Submitter |                                                               
+   |                     |                         |                     |                                                               
+   +---------------------+                         +---------------------+                                                               
+              |                                               |                                                                          
+            Audio                                             |                                                                          
+              |                                               |                                                                          
+              |                                               |                                                                          
+   +---------------------+                         +---------------------+                                                               
+   |                     |                         |                     |                                                               
+   |    SoundFlower      |--------Audio >>-------- | PySpeechRecognition |                                                               
+   |                     |                         |                     |                                                               
+   +---------------------+                         +---------------------+                                                               
+                                                              |                                                                          
+                                                              |                                                                          
+                                                              |                                                                          
+                                                       Recogniced Text.                                                                  
+                                                              |                                                                          
+                                                              |                                                                          
+                                                           ----- -                                                                       
+                                                            \   /                                                                        
+                                                             \ /                                                               
+                                            
+
+```
 ### thanks to:
 ```
 https://github.com/evykassirer/pink-trombone
