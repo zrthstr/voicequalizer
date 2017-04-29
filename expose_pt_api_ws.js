@@ -4,6 +4,8 @@ function init() {
   document.myform.url.value = "ws://localhost:8080/"
   document.myform.inputtext.value = "Hello World!"
   document.myform.disconnectButton.disabled = true
+  w.alwaysVoice = false
+  doMouse({})
   doConnect()
 }
 function doConnect() {
@@ -32,8 +34,6 @@ function onClose(evt) {
   document.myform.disconnectButton.disabled = true
 }
 function onMessage(evt) {
-  writeToScreen(w.alwaysVoice)
-  writeToScreen('\n')
   writeToScreen("response: " + evt.data + '\n')
   const message = evt.data.split(' - ')[1]
 
@@ -78,6 +78,11 @@ const getPoints = numTouches => start => step =>
     .fill()
     .map((_, i) => start + step * i)
 
+const endMouseMovement = () => {
+  w.alwaysVoice = false
+  w.UI.endMouse()
+}
+
 function doMouseMovement({ start, stop, duration }) {
   console.log('in doMouseMovement with', start, stop, duration)
   const stepDuration = 5
@@ -93,7 +98,7 @@ function doMouseMovement({ start, stop, duration }) {
   const xPoints = getPointsFn(start.x)(xStep)
   const yPoints = getPointsFn(start.y)(yStep)
   const touchPoints = xPoints.map((x, i) => [x, yPoints[i]])
-
+  w.alwaysVoice = true
   w.UI.startMouse({
     pageX: start.x,
     pageY: start.y,
@@ -106,5 +111,5 @@ function doMouseMovement({ start, stop, duration }) {
     }), stepDuration * i)
   )
 
-  window.setTimeout(w.UI.endMouse, duration)
+  window.setTimeout(endMouseMovement, duration)
 }

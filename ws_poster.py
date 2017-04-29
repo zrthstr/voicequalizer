@@ -18,14 +18,13 @@ def on_close(ws):
 def on_open(ws):
     def run(*args):
         for i in range(3):
-            time.sleep(1)
             minx = miny = 0
             maxx = maxy = 600
-            minfac = 1
-            maxfac = 5
+            minfac = 300
+            maxfac = 5000
 
             movement = {
-                "duration": random.random() * random.randint(minfac,maxfac),
+                "duration": int(random.random() * random.randint(minfac,maxfac)),
                 "start": {
                     "x":random.randint(minx, maxx),
                     "y":random.randint(minx, maxx)
@@ -35,13 +34,12 @@ def on_open(ws):
                     "y":random.randint(minx, maxx)
                     }
                 }
-            jmovement = json.dumps(movement) 
+            jmovement = json.dumps(movement)
             print("MOVEMENT:",jmovement)
             ws.send(jmovement)
             #ws.send("Hello %d" % i)
+            time.sleep(5)
 
-
-        time.sleep(1)
         ws.close()
         print "thread terminating..."
     thread.start_new_thread(run, ())
