@@ -3,6 +3,8 @@
 import websocket
 import thread
 import time
+import json
+import random
 
 def on_message(ws, message):
     print message
@@ -17,7 +19,28 @@ def on_open(ws):
     def run(*args):
         for i in range(3):
             time.sleep(1)
-            ws.send("Hello %d" % i)
+            minx = miny = 0
+            maxx = maxy = 600
+            minfac = 1
+            maxfac = 5
+
+            movement = {
+                "duration": random.random() * random.randint(minfac,maxfac),
+                "start": {
+                    "x":random.randint(minx, maxx),
+                    "y":random.randint(minx, maxx)
+                    },
+                "stop": {
+                    "x":random.randint(minx, maxx),
+                    "y":random.randint(minx, maxx)
+                    }
+                }
+            jmovement = json.dumps(movement) 
+            print("MOVEMENT:",jmovement)
+            ws.send(jmovement)
+            #ws.send("Hello %d" % i)
+
+
         time.sleep(1)
         ws.close()
         print "thread terminating..."
@@ -26,7 +49,7 @@ def on_open(ws):
 
 if __name__ == "__main__":
     websocket.enableTrace(True)
-    ws = websocket.WebSocketApp("ws://localhost:8000",
+    ws = websocket.WebSocketApp("ws://localhost:8080",
                               on_message = on_message,
                               on_error = on_error,
                               on_close = on_close)
