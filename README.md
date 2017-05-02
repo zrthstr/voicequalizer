@@ -59,5 +59,5 @@ brew install portaudio
 brew install cmu-pocketsphinx
 brew install swig
 # install soundflower, tb added
-set in and output to soundflower 2ch interface in OSX systems prefference
+# in OSX system prefference, set in- and output to soundflower 2ch interfach
 ```
